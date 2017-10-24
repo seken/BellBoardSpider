@@ -14,9 +14,14 @@ def db_connect():
 
 DeclarativeBase = declarative_base()
 
-association_table = Table('rung', DeclarativeBase.metadata,
-    Column('peal_id', Integer, ForeignKey('performances.id')),
-    Column('ring_id', Integer, ForeignKey('ringers.id'))
+class Performance(DeclarativeBase):
+    __tablename__ = "performance"
+    peal_id = Column(Integer, ForeignKey('performances.id'), primary_key=True)
+    ring_id = Column(Integer, ForeignKey('ringers.id'), primary_key=True)
+    conductor = Column(Boolean)
+    bell = Column(String)
+    ringer = relationship("Ringer", back_populates="peals")
+    peal = relationship("Peal", back_populates="ringers")
 )
 class Peal(DeclarativeBase):
     """Sqlalchemy Peals model"""
@@ -31,17 +36,18 @@ class Peal(DeclarativeBase):
     date = Column(String, nullable=True)
     footnote = Column(String) 
     donation = Column(String)
-    ringers = relationship("Ringer", secondary=association_table, back_populates="peals")
+    ringers = relationship("Performance", back_populates="peals")
     page_data = Column(String)
     spider_source = Column(String)
     original_url = Column(String)
+    conductor_known = Column(Boolean)
 
 class Ringer(DeclarativeBase):
     __tablename__ = "ringers"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True, unique=True)
-    peals = relationship("Peal", secondary=association_table, back_populates="ringers")
+    peals = relationship("Performance", back_populates="ringers")
 
 def create_tables(engine):
     """

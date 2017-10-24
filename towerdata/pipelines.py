@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 class TowerdataPipeline(object):
     def __init__(self):
         engine = db_connect()
-        create_tables()
+        create_tables(engine)
         self.session_factory = sessionmaker(bind=engine)
 
     def process_item(self, item, spider):
@@ -25,11 +25,8 @@ class TowerdataPipeline(object):
         peal.date = item.date
         peal.footnote = item.footnote
         peal.donation = item.donation
-        for r in item.ringers:
-            ringer = session.query(Ringer).filter(Ringer.name==r).first()
-            if ringer == None:
-                ringer = Ringer(name=r)
-            peal.ringers.append(ringer)
+        # TODO look at item ringers tuple and populate association
+        #peal.ringers = [session.query(Ringer).filter(Ringer.name==r).first() or Ringer(name=r[1]) for r in item.ringers]
         peal.page_data = item.page_data
         peal.spider_source = item.spider_source
         peal.original_url = item.original_url
