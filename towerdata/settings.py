@@ -11,7 +11,15 @@
 BOT_NAME = 'towerdata'
 
 SPIDER_MODULES = ['towerdata.spiders']
+ITEM_PIPELINES = {
+        'towerdata.pipelines.TowerdataPipeline': 500
+}
 NEWSPIDER_MODULE = 'towerdata.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'towerdata (+http://www.yourdomain.com)'
+USER_AGENT = 'towerdata (+https://github.com/seken/BellBoardSpider)'
+
+DATABASE = {
+    'drivername': 'sqlite',
+    'database': 'content.db'
+}
