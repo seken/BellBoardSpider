@@ -10,7 +10,6 @@ import scrapy
 
 class TowerdataItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
     association = scrapy.Field()
     place = scrapy.Field()
     address = scrapy.Field()
@@ -20,3 +19,6 @@ class TowerdataItem(scrapy.Item):
     footnote = scrapy.Field()
     donation = scrapy.Field()
     ringers = scrapy.Field()
+    page_data = scrapy.Field()
+    spider_source = scrapy.Field()
+    original_url = scrapy.Field()
