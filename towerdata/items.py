@@ -22,3 +22,4 @@ class TowerdataItem(scrapy.Item):
     page_data = scrapy.Field()
     spider_source = scrapy.Field()
     original_url = scrapy.Field()
+    conductor_known = scrapy.Field()
